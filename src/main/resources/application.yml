@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: video-chatting
+  config:
+    import:
+      - classpath:application-oauth2.yml

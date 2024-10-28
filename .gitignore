@@ -287,3 +287,5 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,gradle,intellij+all,visualstudiocode,eclipse
+/src/main/resources/application-oauth2.yml
+/src/main/resources/application-oauth2-prod.yml

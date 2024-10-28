@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Login</title>
+</head>
+<body>
+<div sec:authorize="isAnonymous()">
+  <div>
+    <ul>
+      <li>
+        <a th:href="@{/oauth2/authorization/google}">
+          <span>Sign in with Google</span>
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/oauth2/authorization/naver}">
+          <span>Sign in with Naver</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+  <h2>안녕하세요 <span th:text="${user.nickname}"/> 님</h2>
+  <div>
+    <span th:text="${user.id}"></span>
+  </div>
+  <div>
+    <span th:text="${user.name}"></span>
+  </div>
+  <div>
+    <span th:text="${user.email}"></span>
+  </div>
+  <div>
+    <span th:text="${user.nickname}"></span>
+  </div>
+  <div>
+    <form method="post" th:action="@{/logout}">
+      <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

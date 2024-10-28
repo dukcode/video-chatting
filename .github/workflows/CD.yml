@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ "develop"]
+    branches: [ "develop" ]
 
 env:
   IMG_NAME: "video-chatting"
@@ -21,11 +21,11 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
-      - name: make application-prod.yml
+      - name: make application-oauth2.yml
         run: |
           cd ./src/main/resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION_PROD }}" > ./application.yml
+          echo "${{ secrets.APPLICATION_OAUTH2 }}" > ./application-oauth2.yml
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
