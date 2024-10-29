@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,6 +27,14 @@ public class ChatRoomController {
     model.addAttribute("rooms", chatRoomService.findAllRooms());
     model.addAttribute("user", oauth2User.getAttributes());
     return "chat/chat-rooms";
+  }
+
+  @GetMapping("/{chatRoomId}")
+  public String chatPage(Model model, @AuthenticationPrincipal OAuth2ProviderUser user,
+      @PathVariable(name = "chatRoomId") Long chatRoomId) {
+    model.addAttribute("user", user.getAttributes());
+    model.addAttribute("chatRoomId", chatRoomId);
+    return "chat/chat"; // chat.html 파일을 반환
   }
 
   @PostMapping
