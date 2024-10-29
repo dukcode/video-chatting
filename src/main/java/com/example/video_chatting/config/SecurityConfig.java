@@ -4,11 +4,14 @@ import com.example.video_chatting.repository.UserRepository;
 import com.example.video_chatting.service.CustomOAuth2UserService;
 import com.example.video_chatting.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -21,13 +24,19 @@ public class SecurityConfig {
   private final UserService userService;
 
   @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
+
+  @Bean
   public CustomOAuth2UserService customOAuth2UserService() {
     return new CustomOAuth2UserService(userService, userRepository, new DefaultOAuth2UserService());
   }
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().requestMatchers("/static/**");
+    return (web) -> web.ignoring().requestMatchers("/static/**")
+        .and().ignoring().requestMatchers(PathRequest.toH2Console());
   }
 
   @Bean

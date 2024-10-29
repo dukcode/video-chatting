@@ -7,46 +7,55 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Login</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        rel="stylesheet">
 </head>
 <body>
-<div sec:authorize="isAnonymous()">
-  <div>
-    <ul>
-      <li>
-        <a th:href="@{/oauth2/authorization/google}">
-          <span>Sign in with Google</span>
-        </a>
-      </li>
-      <li>
-        <a th:href="@{/oauth2/authorization/naver}">
-          <span>Sign in with Naver</span>
-        </a>
-      </li>
-    </ul>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3>로그인</h3>
+        </div>
+        <div class="card-body">
+          <div sec:authorize="isAnonymous()">
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <a class="btn btn-danger btn-block" th:href="@{/oauth2/authorization/google}">
+                  Sign in with Google
+                </a>
+              </li>
+              <li>
+                <a class="btn btn-success btn-block" th:href="@{/oauth2/authorization/naver}">
+                  Sign in with Naver
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div sec:authorize="isAuthenticated()">
+            <h4>안녕하세요, <span th:text="${user.nickname}"/> 님</h4>
+            <div class="mt-4">
+              <form method="get" th:action="@{/chat-rooms}">
+                <button class="btn btn-primary btn-block" type="submit">채팅방 목록</button>
+              </form>
+            </div>
+            <div class="mt-2">
+              <form method="post" th:action="@{/logout}">
+                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                <button class="btn btn-danger btn-block" type="submit">Logout</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div sec:authorize="isAuthenticated()">
-  <h2>안녕하세요 <span th:text="${user.nickname}"/> 님</h2>
-  <div>
-    <span th:text="${user.id}"></span>
-  </div>
-  <div>
-    <span th:text="${user.name}"></span>
-  </div>
-  <div>
-    <span th:text="${user.email}"></span>
-  </div>
-  <div>
-    <span th:text="${user.nickname}"></span>
-  </div>
-  <div>
-    <form method="post" th:action="@{/logout}">
-      <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-      <button type="submit">Logout</button>
-    </form>
-  </div>
-</div>
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
