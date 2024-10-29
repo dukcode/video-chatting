@@ -4,3 +4,8 @@ spring:
   config:
     import:
       - classpath:application-oauth2.yml
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
